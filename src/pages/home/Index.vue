@@ -12,13 +12,9 @@
                   <h3 class="font-weight-bold my-4">
                     {{ $t("banner.title") }}
                   </h3>
-                  <v-btn 
-                    small 
-                    elevation="0"
-                    class="hightlight-text mt-2"
-                  >
-                    {{ moment(webinarData.begin_at).format('LLLL') }} - {{ moment(webinarData.end_at).format('LLLL') }}
-                  </v-btn>
+                  <time-slot-banner 
+                    :beginAt="webinarData.begin_at"
+                    :endAt="webinarData.end_at"/>
                   <p class="py-4">
                     ALLUMNI VOICES - POSTPONED Finding an Internship during COVID 19 outbreak and turning it towards a full-time position with Rabiga MARCULAN
                   </p>
@@ -38,9 +34,7 @@
                       Webinaire en ligne
                     </span>
                   </div>
-                  <v-btn elevation="0" class="mt-12 v-size--large rounded-xl purple white--text rounded">
-                    En savoir plus
-                  </v-btn>
+                  <see-more-btn/>
                 </v-col>
                 <v-col cols="12" md="6" class="img-container">
                 </v-col>
@@ -54,9 +48,15 @@
 
 <script>
   import axios from 'axios'
+  import TimeSlotBanner from './components/TimeSlotBanner'
+  import SeeMoreBtn from './components/SeeMoreBtn'
 
   export default {
     name: 'HomePage',
+    components: {
+      TimeSlotBanner,
+      SeeMoreBtn
+    },
     data: () => ({
       webinarData: {}
     }),
@@ -66,8 +66,8 @@
     computed: {
       address() {
         if(this.webinarData) {
-          const { _embedded: { address: { address, venue, city, zip } } } = this.webinarData
-          return `${address}, ${venue}, ${city} ${zip}`
+          const { _embedded } = this.webinarData || {}
+          return `${_embedded?.address?.address || ''}, ${_embedded?.address?.venue || ''}, ${_embedded?.address?.city || ''} ${_embedded?.address?.zip || ''}`
         }
         return ''
       }
@@ -87,10 +87,6 @@
   }
   .content-container {
     padding-left: 20px;
-  }
-  .hightlight-text {
-    color: #cf9fd7 !important;
-    background-color: #eddfef;
   }
   .details-text {
     display: flex;
