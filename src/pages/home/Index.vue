@@ -10,14 +10,14 @@
               <v-row no-gutters>
                 <v-col cols="12" md="6" class="pb-4 pr-4">
                   <h3 class="font-weight-bold my-4">
-                    A la une
+                    {{ $t("banner.title") }}
                   </h3>
                   <v-btn 
                     small 
                     elevation="0"
                     class="hightlight-text mt-2"
                   >
-                    JEU 12 NOV - VEN 8 DEC
+                    {{ moment(webinarData.begin_at).format('LLLL') }} - {{ moment(webinarData.end_at).format('LLLL') }}
                   </v-btn>
                   <p class="py-4">
                     ALLUMNI VOICES - POSTPONED Finding an Internship during COVID 19 outbreak and turning it towards a full-time position with Rabiga MARCULAN
@@ -27,10 +27,10 @@
                       mdi-map-marker
                     </v-icon>
                     <span class="pl-2">
-                      1234, Paris
+                      {{ address }}
                     </span>
                   </div>
-                  <div class="details-text mt-2">
+                  <div class="details-text mt-2" v-if="webinarData.is_webinar">
                     <v-icon color="purple">
                       mdi-video-outline 
                     </v-icon>
@@ -53,61 +53,32 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'HomePage',
-
     data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
+      webinarData: {}
     }),
+    mounted() {
+      this.loadData()
+    },
+    computed: {
+      address() {
+        if(this.webinarData) {
+          const { _embedded: { address: { address, venue, city, zip } } } = this.webinarData
+          return `${address}, ${venue}, ${city} ${zip}`
+        }
+        return ''
+      }
+    },
+    methods: {
+      loadData() {
+        axios.get('./data/data.json')
+          .then(res => this.webinarData = res.data)
+          .catch(err => console.error(err))
+      },
+    }
   }
 </script>
 <style scoped>
