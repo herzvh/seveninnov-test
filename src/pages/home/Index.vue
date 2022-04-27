@@ -8,7 +8,7 @@
           >
             <v-container class="pr-0 pl-4 pt-0 pb-0">
               <v-row no-gutters>
-                <v-col cols="12" md="6" class="pb-4">
+                <v-col cols="12" md="6" class="pb-4 pr-4">
                   <h3 class="font-weight-bold my-4">
                     A la une
                   </h3>
