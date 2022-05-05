@@ -8,7 +8,7 @@
           >
             <v-container class="pr-0 pl-4 pt-0 pb-0">
               <v-row no-gutters>
-                <v-col cols="12" md="6" class="pb-4 pr-4">
+                <v-col sm="12" xs="12" md="6" class="pb-4 pr-4">
                   <h3 class="font-weight-bold my-4">
                     {{ $t("banner.title") }}
                   </h3>
@@ -36,7 +36,7 @@
                   </div>
                   <see-more-btn/>
                 </v-col>
-                <v-col cols="12" md="6" class="img-container">
+                <v-col sm="12" xs="12" md="6" class="img-container">
                 </v-col>
               </v-row>
             </v-container>   

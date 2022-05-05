@@ -1,12 +1,10 @@
 <template>
-    <v-container 
-        small 
-        elevation="0"
-        class="mt-2 v-btn__content text-wrap"
+    <div
+        class="mt-2 v-btn__content"
         :style="{ color, backgroundColor}"
     >
         {{ beginAtMoment }} - {{ endAtMoment }}
-    </v-container>
+    </div>
 </template>
 <script>
 import moment from 'moment'
@@ -19,14 +17,14 @@ export default {
          */
         beginAt: {
             type: String,
-            default: moment().format('llll')
+            default: moment().format('LL')
         },
         /**
          * Date et heure fin du webinaire
          */
         endAt: {
             type: String,
-            default: moment().format('llll')
+            default: moment().format('LL')
         },
         /**
          * Couleur du texte par défaut c'est #cf9fd7
@@ -45,17 +43,18 @@ export default {
     },
     computed: {
         beginAtMoment() {
-            return moment(this.beginAt).format('llll')
+            return moment(this.beginAt).format('LL')
         },
         endAtMoment() {
-            return moment(this.endAt).format('llll')
+            return moment(this.endAt).format('LL')
         }
     }
 }
 </script>
 <style scoped>
     .v-btn__content {
-        width: 100%; 
+        width: 250px !important;
+        padding: 10px;
         white-space: normal;
     }
 </style>
